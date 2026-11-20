@@ -7,7 +7,6 @@
 [![Manifest V3](https://img.shields.io/badge/Chrome-Manifest%20V3-orange?style=for-the-badge&logo=googlechrome&logoColor=white)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![Version](https://img.shields.io/badge/Version-3.0%20PRO-ff6b00?style=for-the-badge)](https://github.com/praneelpandey/PDF-snatcher)
 [![Author](https://img.shields.io/badge/Created%20By-praneelpandey-6366f1?style=for-the-badge&logo=github)](https://github.com/praneelpandey)
-[![License](https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge)](LICENSE)
 
 <br/>
 
@@ -167,28 +166,8 @@ If you want to modify or contribute to PDF Snatcher:
 
 ---
 
-## 🤝 Contributing
-
-Contributions, bug reports, and feature requests are welcome!
-Feel free to open an issue or submit a Pull Request.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
 ## 👨‍💻 Author
 
 Crafted with care by **Praneel Pandey**
 
 - GitHub: [@praneelpandey](https://github.com/praneelpandey)
-
----
-
-## 📄 License
-
-This project is open-source under the **[MIT License](LICENSE)**.
-Feel free to use, modify, and distribute it for academic and personal use.
