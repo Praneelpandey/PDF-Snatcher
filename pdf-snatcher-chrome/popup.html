@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PDF Snatcher</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <!-- Ambient background glow mesh -->
+  <div class="ambient-glow"></div>
+
+  <!-- SEGMENTED NAV CONTROL -->
+  <div class="nav-container">
+    <div class="segmented-control">
+      <button class="segment-btn active" data-tab="current" id="tabCurrent">
+        <svg class="seg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Current Tab</span>
+      </button>
+      <button class="segment-btn" data-tab="history" id="tabHistory">
+        <svg class="seg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><polyline points="12 7 12 12 15 15"/></svg>
+        <span>Vault &amp; History</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════ CURRENT PAGE TAB ═══════════ -->
+  <div class="tab-content active" id="panelCurrent">
+
+    <!-- Premium App Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#fed7aa"/>
+              </linearGradient>
+            </defs>
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="url(#brandGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="14 2 14 8 20 8" stroke="url(#brandGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="16" y1="13" x2="8" y2="13" stroke="url(#brandGrad)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="16" y1="17" x2="8" y2="17" stroke="url(#brandGrad)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="brand-details">
+          <div class="brand-title-row">
+            <span class="brand-name">PDF <span class="gradient-text">Snatcher</span></span>
+            <span class="pro-chip">PRO</span>
+          </div>
+          <p class="brand-caption">Restricted Stream &amp; Document Interceptor</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="action-circle-btn" id="scanBtn" title="Deep Scan DOM for hidden links">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Sleek Watcher Card -->
+    <div class="watcher-card">
+      <div class="watcher-left">
+        <div class="radar-status">
+          <span class="pulse-beacon" id="statusDot"></span>
+        </div>
+        <div class="watcher-text">
+          <div class="watcher-head-row">
+            <span class="watcher-heading">Live Shield</span>
+            <span class="badge-status-pill" id="toggleLabel">OFF</span>
+          </div>
+          <span class="watcher-sub" id="watcherDesc">Silent logging active</span>
+        </div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="watcherToggle" />
+        <span class="switch-slider"></span>
+      </label>
+    </div>
+
+    <!-- Live Watcher Active Banner -->
+    <div class="watcher-overlay" id="watcherOverlay">
+      <div class="wo-glow-radar">
+        <span class="radar-ripple"></span>
+        <svg class="radar-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+      </div>
+      <div class="wo-info">
+        <div class="wo-title-line">
+          <span class="wo-title">Real-Time Radar Active</span>
+          <span class="wo-badge" id="watcherCount">0 captured</span>
+        </div>
+        <p class="wo-desc">Intercepting embedded viewer network packets</p>
+      </div>
+      <button class="wo-off-btn" id="watcherOffBtn" title="Pause live watcher">Pause</button>
+    </div>
+
+    <!-- Action Bar & Controls -->
+    <div class="action-bar hidden" id="actionBar">
+      <div class="action-info">
+        <span class="action-dot"></span>
+        <span class="pdf-count" id="pdfCountLabel">0 PDFs detected</span>
+      </div>
+      <div class="action-buttons">
+        <button class="glass-text-btn" id="clearBtn">Clear</button>
+        <button class="btn-gradient-cta" id="downloadAllBtn" title="Batch download all detected files">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Download All</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PDF Cards Feed -->
+    <div class="pdf-list" id="pdfList">
+      <div class="empty-state">
+        <div class="empty-halo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+        </div>
+        <div class="empty-title">Ready for Snatching</div>
+        <div class="empty-hint">Open any lecture, assignment or document viewer.<br>Protected PDF streams will be intercepted automatically.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ HISTORY TAB ═══════════ -->
+  <div class="tab-content" id="panelHistory">
+    <div class="history-bar">
+      <div class="history-meta">
+        <span class="history-title">Vault Records</span>
+        <span class="history-caption">Persisted across all sessions</span>
+      </div>
+      <button class="glass-text-btn danger" id="clearHistoryBtn">Wipe All</button>
+    </div>
+    <div class="pdf-list" id="historyList">
+      <div class="empty-state">
+        <div class="empty-halo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <div class="empty-title">No Saved Records</div>
+        <div class="empty-hint">PDFs you capture will be stored here safely<br>so you never lose course materials.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ultra-clean luxury footer -->
+  <footer class="app-footer">
+    <div class="footer-left">
+      <span class="status-live-beacon"></span>
+      <span class="status-text">Network Interceptor Active</span>
+    </div>
+    <a class="author-badge" href="https://github.com/praneelpandey" target="_blank" id="footerGithub">
+      <svg class="gh-mini" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      <span>praneelpandey</span>
+    </a>
+    <span class="footer-version" id="footerCount">v3.0 PRO</span>
+  </footer>
+
+  <!-- Ultra-clean floating toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
