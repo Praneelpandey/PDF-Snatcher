@@ -72,7 +72,7 @@ Toggle the **Developer mode** switch in the top-right corner of the Extensions p
    ```text
    [ Load unpacked ]  [ Pack extension ]  [ Update ]
    ```
-2. In the file dialog, select the `pdf-snatcher-chrome` folder (the directory containing `manifest.json`).
+2. In the file dialog, select the cloned `PDF-Snatcher` folder (the directory containing `manifest.json`).
 3. **Done!** PDF Snatcher PRO is now installed and ready to use.
 
 > [!TIP]
